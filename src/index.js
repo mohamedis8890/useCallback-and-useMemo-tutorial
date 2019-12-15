@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import ReactDOM from "react-dom";
 import Button from "./Button";
 
@@ -11,8 +11,9 @@ const App = () => {
   const [delta, setDelta] = useState(1);
   const [c, setC] = useState(0);
 
-  const incrementDelta = () => setDelta(delta => delta + 1);
-  const increment = () => setC(c => c + delta);
+  // No dependencies (i.e. []) for now
+  const incrementDelta = useCallback(() => setDelta(delta => delta + 1), []);
+  const increment = useCallback(() => setC(c => c + delta), [delta]);
 
   // Register the functions so we can count them
   functions.add(incrementDelta);
