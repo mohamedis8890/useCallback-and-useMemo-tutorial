@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useMemo } from "react";
 import ReactDOM from "react-dom";
 import Button from "./Button";
@@ -25,6 +26,7 @@ const App = () => {
   // unless the value of c changes
   // Notice that it operates though it is never called
   const sinOfC = useMemo(() => setSinC(Math.sin(c)), [c]);
+  
 
   // Register the functions so we can count them
   functions.add(incrementDelta);
