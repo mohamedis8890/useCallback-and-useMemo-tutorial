@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import ReactDOM from "react-dom";
 import Button from "./Button";
 
@@ -11,8 +11,14 @@ const App = () => {
   const [delta, setDelta] = useState(1);
   const [c, setC] = useState(0);
 
-  const incrementDelta = () => setDelta(delta => delta + 1);
-  const increment = () => setC(c => c + delta);
+  const incrementDelta = useCallback(() => setDelta(delta => delta + 1), []);
+  const increment = useCallback(() => setC(c => c + delta), [delta]);
+
+  // Can depend on other useCallback-wrapped functions
+  const incrementBoth = useCallback(() => {
+    incrementDelta();
+    increment();
+  }, [increment, incrementDelta]);
 
   // Register the functions so we can count them
   functions.add(incrementDelta);
@@ -26,6 +32,7 @@ const App = () => {
       <div>
         <Button onClick={incrementDelta}>Increment Delta</Button>
         <Button onClick={increment}>Increment Counter</Button>
+        <Button onClick={incrementBoth}>Increment Both</Button>
       </div>
       <br />
       <div> Newly Created Functions: {functions.size - 2} </div>
